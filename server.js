@@ -10,7 +10,7 @@ const MongoStore = require('connect-mongo');
 require("dotenv").config();
 var cookieParser = require('cookie-parser');
 const Product = require("./models/Product");
-const Order = require("./models/order");
+const Order = require("./models/Order");
 
 
 app.use(function (req, res, next) {
