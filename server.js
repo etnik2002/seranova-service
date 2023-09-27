@@ -99,7 +99,7 @@ app.post('/product/create', async (req, res) => {
 
       const editPayload = {
         name: name || product.name,
-        stock: stock || product.stock,
+        stock: stock > 0 ? parseFloat(stock) + parseFloat(product.stock) : parseFloat(product.stock),
         dimensions: dimensions || product.dimensions,
       }
       const updatedProduct = await Product.findByIdAndUpdate(
@@ -148,13 +148,24 @@ app.post('/product/create', async (req, res) => {
         }
 
         await newOrder.save();
-      res.status(201).json("order placed");
+
+        res.status(201).json("order placed");
     } catch (error) {
       console.error("Error creating order:", error);
       res.status(500).json({ error: "Could not create order" });
     }
   });
   
+  app.post('/order/delete/:id', async (req,res) => {
+    try {
+      await Order.findByIdAndRemove(req.params.id);
+      return res.status(200).json("order deleted");
+    } catch (error) {
+      console.error("Error deleting order:", error);
+      res.status(500).json({ error: error });
+    }
+  })
+
   function calculateTotalAmount(items) {
     let total = 0;
     console.log({items})
