@@ -192,8 +192,18 @@ app.post('/product/create', async (req, res) => {
   
   app.get('/order/count', async (req, res) => {
     try {
+      const totalProfit = await Order.aggregate([
+        {
+          $group: {
+            _id: null,
+            totalProfit: { $sum: '$price' }
+          }
+        }
+      ]);
+
       const orderCount = await Order.countDocuments();
-      res.json(orderCount);
+      console.log(totalProfit, orderCount)
+      res.json({orderCount: orderCount, totalProfit: totalProfit[0].totalProfit});
     } catch (error) {
       console.error('Error getting order count:', error);
       res.status(500).json({ error: 'Could not get order count' });
