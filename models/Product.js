@@ -4,7 +4,7 @@ const productSchema = mongoose.Schema({
     name: { type: String },
     stock: { type: Number },
     dimensions: { type: String },
-
+    njesiaMatse: { type: String }
 },
     {timestamps: true}
 )
