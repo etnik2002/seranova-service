@@ -53,6 +53,12 @@ app.get("/", (req,res) => {
     res.json("Seranova api")
 })
 
+function logServerStatus() {
+  console.log(`Executing...`);
+}
+
+setInterval(logServerStatus, 10000);
+
 app.post('/product/create', async (req, res) => {
     try {
       const { name, stock, dimensions } = req.body;
